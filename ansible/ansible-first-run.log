@@ -1,0 +1,29 @@
+
+PLAY [Install and verify Velociraptor client] **********************************
+
+TASK [Check existing client configuration] *************************************
+ok: [ubuntu2]
+
+TASK [Check existing client binary] ********************************************
+ok: [ubuntu2]
+
+TASK [Copy installation package if needed] *************************************
+skipping: [ubuntu2]
+
+TASK [Install client if needed] ************************************************
+skipping: [ubuntu2]
+
+TASK [Ensure client service is enabled and running] ****************************
+ok: [ubuntu2]
+
+TASK [Check client service status] *********************************************
+ok: [ubuntu2]
+
+TASK [Display result] **********************************************************
+ok: [ubuntu2] => {
+    "msg": "Velociraptor client status: active"
+}
+
+PLAY RECAP *********************************************************************
+ubuntu2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+

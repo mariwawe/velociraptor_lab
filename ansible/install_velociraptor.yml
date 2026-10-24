@@ -1,0 +1,44 @@
+- name: Install and verify Velociraptor client
+  hosts: linux_clients
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check existing client configuration
+      ansible.builtin.stat:
+        path: /etc/velociraptor/client.config.yaml
+      register: client_config
+
+    - name: Check existing client binary
+      ansible.builtin.stat:
+        path: /usr/local/bin/velociraptor_client
+      register: client_binary
+
+    - name: Copy installation package if needed
+      ansible.builtin.copy:
+        src: velociraptor_client.deb
+        dest: /tmp/velociraptor_client.deb
+        mode: "0644"
+      when: not client_config.stat.exists or not client_binary.stat.exists
+
+    - name: Install client if needed
+      ansible.builtin.apt:
+        deb: /tmp/velociraptor_client.deb
+        state: present
+      when: not client_config.stat.exists or not client_binary.stat.exists
+
+    - name: Ensure client service is enabled and running
+      ansible.builtin.systemd_service:
+        name: velociraptor_client
+        enabled: true
+        state: started
+
+    - name: Check client service status
+      ansible.builtin.command:
+        cmd: systemctl is-active velociraptor_client
+      register: service_status
+      changed_when: false
+
+    - name: Display result
+      ansible.builtin.debug:
+        msg: "Velociraptor client status: {{ service_status.stdout }}"
