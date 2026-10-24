@@ -1,0 +1,3 @@
+SELECT OSPath AS FilePath, Name AS FileName, Size, Mtime AS ModifiedTime FROM glob(globs="/tmp/*") WHERE NOT IsDir AND Mtime > timestamp(epoch=now() - 3600)'
+
+

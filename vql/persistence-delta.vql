@@ -1,0 +1,12 @@
+SELECT OSPath, Name, Size, Diff
+FROM diff(
+  query={
+    SELECT OSPath, Name, Size
+    FROM glob(globs="/etc/cron.d/*")
+    WHERE NOT IsDir
+  },
+  key="OSPath",
+  period=5
+)
+WHERE Diff = "added"
+LIMIT 1

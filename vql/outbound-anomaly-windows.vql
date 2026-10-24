@@ -1,0 +1,11 @@
+SELECT
+    Pid,
+    Status,
+    Laddr.IP AS LocalIP,
+    Laddr.Port AS LocalPort,
+    Raddr.IP AS RemoteIP,
+    Raddr.Port AS RemotePort
+FROM netstat()
+WHERE Raddr.IP = "192.168.56.10"
+  AND Raddr.Port = 9099
+  AND Status = "ESTAB"

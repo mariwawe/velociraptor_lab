@@ -1,0 +1,11 @@
+SELECT
+    Pid,
+    Status,
+    Laddr.ip AS LocalIP,
+    Laddr.port AS LocalPort,
+    Raddr.ip AS RemoteIP,
+    Raddr.port AS RemotePort
+FROM connections()
+WHERE Raddr.ip = "192.168.56.10"
+  AND Raddr.port = 9099
+  AND Status = "ESTABLISHED"
